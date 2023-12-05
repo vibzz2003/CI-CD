@@ -1,11 +1,6 @@
-# syntax=docker/dockerfile:1
-FROM busybox:latest
-COPY --chmod=755 <<EOF /app/run.sh
-#!/bin/sh
-while true; do
-  echo -ne "The time is now $(date +%T)\\r"
-  sleep 1
-done
-EOF
-
-ENTRYPOINT /app/run.sh
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y openjdk-11-jdk
+COPY Hello.java /app/
+WORKDIR /app/
+RUN javac Hello.java
+CMD ["java","Hello"]
